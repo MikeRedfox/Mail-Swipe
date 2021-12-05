@@ -73,10 +73,11 @@ def checkMails():
         x = 'mails' if length > 1 else 'mail'
         print_statusline(f"You received {length} {x}. (Mailbox is refreshed automatically every 5 seconds.)")
 
-        current_directory = os.getcwd()
-        final_directory = os.path.join(current_directory, r'All Mails')
-        if not os.path.exists(final_directory):
-            os.makedirs(final_directory)
+        #current_directory = os.getcwd()
+        #final_directory = os.path.join(current_directory, r'All Mails')
+        final_directory = "/home/mike/Documents/temp-mail"
+        # if not os.path.exists(final_directory):
+        #     os.makedirs(final_directory)
 
         for i in idList:
             msgRead = f'{API}?action=readMessage&login={extract()[0]}&domain={extract()[1]}&id={i}'
