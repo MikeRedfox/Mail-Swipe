@@ -91,18 +91,23 @@ def checkMails():
                 if k == 'textBody':
                     content = v
 
-            mail_file_path = os.path.join(final_directory, f'{i}.txt')
+            mail_file_path = os.path.join(final_directory, f'{date}.txt')
 
             with open(mail_file_path,'w') as file:
                 file.write("Sender: " + sender + '\n' + "To: " + mail + '\n' + "Subject: " + subject + '\n' + "Date: " + date + '\n' + "Content: " + content + '\n')
 
 banner()
-userInput1 = input("Do you wish to use to a custom domain name (Y/N): ").capitalize()
+userInput1 = input("Do you wish to use to a custom domain name (Y/n): ").capitalize()
+
+if userInput1 == "" :
+    userInput1 = "Y"
 
 try:
 
     if userInput1 == 'Y':
-        userInput2 = input("\nEnter the name that you wish to use as your domain name: ")
+        userInput2 = input("\nEnter the name that you wish to use as your domain name:[default : mike] ")
+        if userInput2 == "":
+            userInput2 = "mike"
         newMail = f"{API}?login={userInput2}&domain={domain}"
         reqMail = requests.get(newMail)
         mail = f"{extract()[0]}@{extract()[1]}"
@@ -127,7 +132,7 @@ try:
 except(KeyboardInterrupt):
     deleteMail()
     print("\nProgramme Interrupted")
-    os.system('cls' if os.name == 'nt' else 'clear')
+    #os.system('cls' if os.name == 'nt' else 'clear')
 
 
 
