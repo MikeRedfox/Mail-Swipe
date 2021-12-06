@@ -11,7 +11,6 @@ API = 'https://www.1secmail.com/api/v1/'
 domainList = ['1secmail.com', '1secmail.net', '1secmail.org']
 domain = random.choice(domainList)
 
-# test for git
 
 def banner():
     print(r'''
