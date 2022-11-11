@@ -8,25 +8,7 @@ import re
 import os
 
 API = 'https://www.1secmail.com/api/v1/'
-domainList = ['1secmail.com', '1secmail.net', '1secmail.org']
-domain = random.choice(domainList)
-
-
-def banner():
-    print(r'''
-                         ''~``
-                        ( o o )
-+------------------.oooO--(_)--Oooo.------------------+
-|                                                     |
-|                    Mail Swipe                       |
-|               [by Sameera Madushan]                 |
-|                                                     |
-|                    .oooO                            |
-|                    (   )   Oooo.                    |
-+---------------------\ (----(   )--------------------+
-                       \_)    ) /
-                             (_/
-    ''')
+domain = '1secmail.com'
 
 def generateUserName():
     name = string.ascii_lowercase + string.digits
@@ -74,11 +56,8 @@ def checkMails():
         x = 'mails' if length > 1 else 'mail'
         print_statusline(f"You received {length} {x}. (Mailbox is refreshed automatically every 5 seconds.)")
 
-        #current_directory = os.getcwd()
-        #final_directory = os.path.join(current_directory, r'All Mails')
         final_directory = "/home/mike/Documents/temp-mail"
-        # if not os.path.exists(final_directory):
-        #     os.makedirs(final_directory)
+
 
         for i in idList:
             msgRead = f'{API}?action=readMessage&login={extract()[0]}&domain={extract()[1]}&id={i}'
@@ -93,51 +72,21 @@ def checkMails():
                 if k == 'textBody':
                     content = v
 
-            mail_file_path = os.path.join(final_directory, f'{date}.txt')
+            mail_file_path = os.path.join(final_directory, f'{date}-{sender}.txt')
 
             with open(mail_file_path,'w') as file:
                 file.write("Sender: " + sender + '\n' + "To: " + mail + '\n' + "Subject: " + subject + '\n' + "Date: " + date + '\n' + "Content: " + content + '\n')
 
-banner()
-userInput1 = input("Do you wish to use to a custom domain name (Y/n): ").capitalize()
-
-if userInput1 == "" :
-    userInput1 = "Y"
-
-try:
-
-    if userInput1 == 'Y':
-        userInput2 = input("\nEnter the name that you wish to use as your domain name:[default : mike] ")
-        if userInput2 == "":
-            userInput2 = "mike"
-        newMail = f"{API}?login={userInput2}&domain={domain}"
-        reqMail = requests.get(newMail)
-        mail = f"{extract()[0]}@{extract()[1]}"
-        pyperclip.copy(mail)
-        print("\nYour temporary email is " + mail + " (Email address copied to clipboard.)" +"\n")
-        print(f"---------------------------- | Inbox of {mail}| ----------------------------\n")
-        while True:
-            checkMails()
-            time.sleep(5)
-
-    if userInput1 == 'N':
-        newMail = f"{API}?login={generateUserName()}&domain={domain}"
-        reqMail = requests.get(newMail)
-        mail = f"{extract()[0]}@{extract()[1]}"
-        pyperclip.copy(mail)
-        print("\nYour temporary email is " + mail + " (Email address copied to clipboard.)" + "\n")
-        print(f"---------------------------- | Inbox of {mail} | ----------------------------\n")
-        while True:
-            checkMails()
-            time.sleep(5)
-
-except(KeyboardInterrupt):
-    deleteMail()
-    print("\nProgramme Interrupted")
-    #os.system('cls' if os.name == 'nt' else 'clear')
-
-
-
+name = 'mike'
+newMail = f"{API}?login={name}&domain={domain}"
+reqMail = requests.get(newMail)
+mail = f"{extract()[0]}@{extract()[1]}"
+pyperclip.copy(mail)
+print("\nYour temporary email is " + mail + " (Email address copied to clipboard.)" +"\n")
+print(f"---------------------------- | Inbox of {mail}| ----------------------------\n")
+while True:
+    checkMails()
+    time.sleep(5)
 
 
 
